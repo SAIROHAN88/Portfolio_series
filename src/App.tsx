@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { viewerProfiles, type ProfileId, type Project, type SectionId } from './data/portfolio';
 import { SmoothScrollProvider, useSmoothScroll } from './hooks/smoothScroll';
@@ -93,6 +93,44 @@ function Series() {
   const closeProject = useCallback(() => setProject(null), []);
   const closeResume = useCallback(() => setResumeOpen(false), []);
 
+  // While an overlay is open the page behind it must not be reachable by
+  // keyboard or screen reader.
+  const overlayOpen = playing || project !== null || resumeOpen;
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  // Remember what was focused before an overlay opened, and give it focus
+  // back when the last overlay closes. This lives here rather than inside
+  // each overlay because the overlay's exit animation keeps it mounted for a
+  // while — restoring focus on unmount alone would leave focus stranded.
+  const lastFocused = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    if (overlayOpen) {
+      lastFocused.current = (document.activeElement as HTMLElement | null) ?? null;
+      return;
+    }
+    const target = lastFocused.current;
+    lastFocused.current = null;
+    if (!target) return;
+    // The page is still `inert` at this point, and focusing an inert
+    // element is silently ignored — defer until the attribute is removed.
+    window.setTimeout(() => {
+      if (target.isConnected) target.focus({ preventScroll: true });
+    }, 0);
+  }, [overlayOpen]);
+
+  // `inert` is not in React 18's DOM typings, so set it on the element
+  // directly. It removes the page behind an overlay from the tab order and
+  // from the accessibility tree in every browser that supports it.
+  useEffect(() => {
+    const el = pageRef.current;
+    if (!el) return;
+    if (overlayOpen) {
+      el.setAttribute('inert', '');
+    } else {
+      el.removeAttribute('inert');
+    }
+  }, [overlayOpen]);
+
   const sections: Record<SectionId, ReactNode> = {
     about: <About />,
     journey: <Seasons />,
@@ -114,7 +152,13 @@ function Series() {
       </AnimatePresence>
 
       {stage === 'home' && (
-        <motion.div initial={{ opacity: 0, scale: 1.03, filter: 'blur(10px)' }} animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }} transition={{ duration: 1, ease: EASE }}>
+        <motion.div
+          ref={pageRef}
+          aria-hidden={overlayOpen || undefined}
+          initial={{ opacity: 0, scale: 1.03, filter: 'blur(10px)' }}
+          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+          transition={{ duration: 1, ease: EASE }}
+        >
           <Navbar order={order} profileId={profileId} onSwitch={pickProfile} />
           <main>
             <Hero key={`hero-${profileId}`} onPlay={() => setPlaying(true)} onResume={() => setResumeOpen(true)} profileId={profileId} />

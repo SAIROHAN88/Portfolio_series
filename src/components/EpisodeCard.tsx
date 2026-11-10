@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
 import type { Episode } from '../data/portfolio';
+import { useSmoothScroll } from '../hooks/smoothScroll';
 import { EASE, Tilt } from './fx';
 import { PosterBackdrop } from './Poster';
 
 export default function EpisodeCard({ episode, index }: { episode: Episode; index: number }) {
   const [season, ep] = episode.code.split(' ');
+  const { scrollTo } = useSmoothScroll();
   return (
     <motion.article
       className="w-[80vw] shrink-0 snap-start sm:w-[52vw] md:w-[38vw] lg:w-[30vw] xl:w-[26vw]"
@@ -34,6 +36,23 @@ export default function EpisodeCard({ episode, index }: { episode: Episode; inde
               </span>
             </div>
             <p className="text-sm leading-relaxed text-bone/80">{episode.description}</p>
+            {episode.skills && episode.skills.length > 0 && (
+              <div className="mt-3">
+                <p className="text-[9px] font-bold uppercase tracking-[0.24em] text-smoke">Skills in play</p>
+                <div className="mt-1.5 flex flex-wrap gap-1.5">
+                  {episode.skills.map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => scrollTo('#skills')}
+                      className="rounded-full border border-brand/30 px-2.5 py-0.5 text-[11px] font-medium text-brand transition hover:border-brand hover:bg-brand/10"
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
               {episode.tags.map((t) => (
                 <span key={t} className="rounded-full bg-white/[0.06] px-2.5 py-1 text-[11px] text-mist">

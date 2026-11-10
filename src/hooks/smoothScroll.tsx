@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useRef, type ReactNode } from 'react';
 import Lenis from 'lenis';
+import { NAV_OFFSET } from '../constants';
 import { useReducedMotionPref } from './useMedia';
 
 type ScrollApi = {
@@ -32,17 +33,22 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     };
   }, [reduced]);
 
-  const scrollTo = useCallback<ScrollApi['scrollTo']>((target, opts = {}) => {
-    const offset = opts.offset ?? -72;
-    const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : target;
-    if (el === null) return;
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(el, { offset, immediate: opts.immediate, duration: 1.4 });
-    } else {
-      const top = typeof el === 'number' ? el : el.getBoundingClientRect().top + window.scrollY + offset;
-      window.scrollTo({ top, behavior: opts.immediate ? 'auto' : 'smooth' });
-    }
-  }, []);
+  const scrollTo = useCallback<ScrollApi['scrollTo']>(
+    (target, opts = {}) => {
+      const offset = opts.offset ?? -NAV_OFFSET;
+      const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : target;
+      if (el === null) return;
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(el, { offset, immediate: opts.immediate, duration: 1.4 });
+      } else {
+        const top = typeof el === 'number' ? el : el.getBoundingClientRect().top + window.scrollY + offset;
+        // `reduced` means Lenis was never created, so we land here. Animate only
+        // when the visitor has not asked for reduced motion.
+        window.scrollTo({ top, behavior: opts.immediate || reduced ? 'auto' : 'smooth' });
+      }
+    },
+    [reduced],
+  );
 
   const lock = useCallback(() => {
     locks.current += 1;

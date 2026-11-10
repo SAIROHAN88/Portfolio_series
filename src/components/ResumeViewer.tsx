@@ -20,7 +20,7 @@ export default function ResumeSection({ onView }: { onView: () => void }) {
           <CollapsibleSheet />
         </motion.div>
 
-        <div className="lg:sticky lg:top-28 lg:self-start">
+        <div className="lg:sticky lg:top-28 lg:self-start" data-print-hide>
           <p className="font-serif text-3xl italic leading-tight text-bone">Every episode, on one page.</p>
           <p className="mt-3 text-sm leading-relaxed text-mist">
             Education, coursework, projects, achievements, and core skills — view the interactive profile here or connect on LinkedIn.
@@ -45,6 +45,16 @@ export default function ResumeSection({ onView }: { onView: () => void }) {
                 className="glass flex min-h-12 w-full items-center justify-center gap-2 rounded-md px-6 text-[15px] font-semibold text-bone transition hover:bg-white/15"
               >
                 ↗ Connect on LinkedIn
+              </a>
+            </Magnetic>
+            <Magnetic className="w-full">
+              <a
+                href={profile.resumePdf}
+                download="Sai_Rohan_Resume.pdf"
+                data-cursor="link"
+                className="glass flex min-h-12 w-full items-center justify-center gap-2 rounded-md px-6 text-[15px] font-semibold text-bone transition hover:bg-white/15"
+              >
+                ⤓ Download PDF
               </a>
             </Magnetic>
             <Magnetic className="w-full">

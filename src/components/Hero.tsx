@@ -207,6 +207,17 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
               </button>
             )}
           </Magnetic>
+          {profile.email && (
+            <Magnetic>
+              <a
+                href={`mailto:${profile.email}`}
+                data-cursor="link"
+                className="glass flex min-h-12 items-center gap-3 rounded-md px-6 py-3 text-[15px] font-semibold text-bone transition hover:bg-white/15 sm:px-8"
+              >
+                <span className="text-lg leading-none">✉</span> Email
+              </a>
+            </Magnetic>
+          )}
           <button
             type="button"
             onClick={() => scrollTo('#about')}

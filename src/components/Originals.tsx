@@ -23,7 +23,7 @@ function Intro() {
       </p>
       <RevealText as="h2" text="ORIGINALS" className="font-display text-[clamp(3.5rem,9vw,8rem)] leading-[0.85] text-bone" />
       <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-mist">
-        Three productions from my portfolio — a multi-agent AI interview simulator, an algorithmic problem-solving suite, and academic systems lab work. Open any title for the full story.
+        Four productions from my portfolio — a multi-agent AI interview simulator, a real-time library seat booking app, an algorithmic problem-solving suite, and academic systems lab work. Open any title for the full story.
       </p>
       <p className="mt-6 hidden text-xs tracking-[0.24em] text-smoke lg:block">SCROLL TO BROWSE →</p>
     </div>

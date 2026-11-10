@@ -5,7 +5,7 @@ import { EASE } from './fx';
 
 export function ProfileAvatar({ id, size = 'lg' }: { id: ProfileId; size?: 'sm' | 'lg' }) {
   const p = viewerProfiles.find((v) => v.id === id)!;
-  const box = size === 'lg' ? 'h-24 w-24 sm:h-32 sm:w-32 md:h-36 md:w-36 rounded-xl' : 'h-8 w-8 rounded-md';
+  const box = size === 'lg' ? 'h-24 w-24 sm:h-32 sm:w-32 md:h-36 md:w-36 rounded-xl' : 'h-11 w-11 rounded-md';
 
   if (p.avatar) {
     return (

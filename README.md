@@ -23,7 +23,35 @@ npm run build
 npm run preview
 ```
 
-The static site is written to `dist/` and can be deployed as-is to Vercel, Netlify, GitHub Pages or any static host.
+The static site is written to `dist/` and is deployed to GitHub Pages by
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) on every push to
+`main`.
+
+## Deployment
+
+| Variable | Where | Purpose |
+| --- | --- | --- |
+| `VITE_SITE_URL` | `.env` | Public origin, used for absolute social-card URLs. Change it when the domain changes. |
+| `VITE_BASE_PATH` | `.env` | Path prefix for the build. `/Portfolio_series/` for GitHub Pages; `/` for a root domain (Vercel, Netlify, custom domain). |
+
+> GitHub Pages serves project sites from a sub-path, so `VITE_BASE_PATH` must
+> match the repo name or every asset URL 404s.
+
+To publish to a different host, set `VITE_BASE_PATH=/` and redeploy.
+
+## The resume PDF
+
+`public/assets/Sai_Rohan_Resume.pdf` is **generated**, not hand-written — it is
+rendered from the same `ResumeSheet` component the site displays, so the file
+can never drift from the content.
+
+```bash
+npm run resume
+```
+
+This builds the site, renders `resume.html` with headless Chrome and writes the
+PDF. It is run automatically in CI, so a deploy always ships a current resume.
+Requires Chrome or Edge on `PATH`, or set `CHROME_PATH`.
 
 ## Updating the content
 
@@ -41,7 +69,9 @@ The static site is written to `dist/` and can be deployed as-is to Vercel, Netli
 | Profile order (Recruiter / Developer / Creative) | `viewerProfiles` |
 | Opening studio card text | `profile.originalLabel` |
 
-**Resume Export:** The site includes a built-in "Print / Save as PDF" feature in both the resume modal and the resume preview section, generating an immaculate, print-styled PDF directly from the browser.
+**Resume Export:** three ways to get the resume — download the generated
+`Sai_Rohan_Resume.pdf`, print the live sheet from the browser, or open the
+full-screen profile in the resume modal.
 
 **Social share image:** the Open Graph card in `public/assets/og-image.jpg` is generated (no personal photos are baked in). To regenerate it after changing the name or tagline:
 
@@ -71,11 +101,14 @@ src/
     TopPicks               ← Top 10-style row
     Skills                 ← skill genres; each card shows where the skill appears
     Achievements           ← award-poster cards + certification rail (links to credentials)
-    ResumeViewer/ResumeModal ← designed resume sheet, print-to-PDF export
+    ResumeViewer/ResumeModal ← designed resume sheet, PDF download + print
     FinalCTA               ← TO BE CONTINUED… + contact links
     CustomCursor, fx.tsx   ← cursor states, magnetic buttons, 3D tilt, text reveals, particles
-  hooks/                   ← Lenis smooth scroll + scroll lock, media queries, watch progress
+    ErrorBoundary          ← recovers a blank page caused by a stale chunk
+  hooks/                   ← Lenis smooth scroll + scroll lock, media queries, watch progress, dialog focus
 scripts/build-images.mjs   ← social share image pipeline (sharp)
+scripts/build-resume.mjs   ← resume PDF pipeline (headless Chrome)
+resume.html               ← print-only entry point for the PDF pipeline
 ```
 
 **Stack:** React 18, TypeScript, Vite 6, Tailwind CSS 4, Framer Motion 11, Lenis.
@@ -86,10 +119,16 @@ scripts/build-images.mjs   ← social share image pipeline (sharp)
 - Hover effects only run on devices with a precise pointer. Touch devices get tap interactions and native swipe rails.
 - The custom cursor appears only with a mouse or trackpad.
 - Overlays close with Esc, and the highlight reel supports Space and the ← → keys.
-- Portraits are responsive WebP files (25–90 KB). Overlays are code-split, and particles pause when they're off screen.
+- Overlays are proper dialogs: focus moves inside on open, Tab is trapped, the page behind is `inert`, and focus returns to the trigger on close.
+- Both tab lists (skills, seasons) implement the ARIA tabs pattern with arrow-key navigation.
+- Lighthouse scores 100 for accessibility, best practices and SEO.
+- The resume PDF is generated from the same component the site renders, so it can never drift from the content.
+- Overlays are code-split, and particles pause when they're off screen.
 
 ## Keyboard shortcuts
 
 - **Opening:** Enter or Esc skips it.
 - **Play Intro:** Space pauses, ← and → change slides, Esc closes.
 - **Project and resume overlays:** Esc closes.
+- **Skill and season tabs:** ← → move between tabs, Home/End jump to the ends.
+- **Mobile menu:** Esc closes it.

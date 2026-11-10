@@ -23,7 +23,7 @@ export default function Achievements() {
     <>
       <SectionHeading kicker="Awards season" title="Top Moments" />
 
-      <div className="gutter grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 [perspective:1400px]">
+      <div className="gutter grid gap-4 sm:grid-cols-2 lg:grid-cols-3 [perspective:1400px]">
         {achievements.map((a, i) => (
           <motion.div
             key={a.id}

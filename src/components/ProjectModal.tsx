@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { projects, type Project } from '../data/portfolio';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { useScrollLock } from '../hooks/smoothScroll';
 import { EASE, Magnetic } from './fx';
 import { ProjectArt } from './Poster';
@@ -13,17 +14,13 @@ const block = {
 export default function ProjectModal({ project, onClose, onSwitch }: { project: Project; onClose: () => void; onSwitch: (p: Project) => void }) {
   useScrollLock(true);
   const scroller = useRef<HTMLDivElement>(null);
-  const closeBtn = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(dialogRef, true);
 
   useEffect(() => {
-    const prevFocus = document.activeElement as HTMLElement | null;
-    closeBtn.current?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', onKey);
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      prevFocus?.focus?.({ preventScroll: true });
-    };
+    return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
   useEffect(() => {
@@ -33,7 +30,7 @@ export default function ProjectModal({ project, onClose, onSwitch }: { project: 
   const more = projects.filter((p) => p.id !== project.id);
 
   return (
-    <motion.div className="fixed inset-0 z-[140]" role="dialog" aria-modal="true" aria-labelledby={`title-${project.id}-modal`}>
+    <motion.div ref={dialogRef} className="fixed inset-0 z-[140]" role="dialog" aria-modal="true" aria-labelledby={`title-${project.id}-modal`}>
       <motion.div
         className="absolute inset-0 bg-black/80 backdrop-blur-md"
         initial={{ opacity: 0 }}
@@ -56,10 +53,10 @@ export default function ProjectModal({ project, onClose, onSwitch }: { project: 
             </motion.div>
             <div className="absolute inset-0 bg-gradient-to-t from-ink-2 via-ink-2/30 to-transparent" />
             <button
-              ref={closeBtn}
               type="button"
               onClick={onClose}
               data-cursor="close"
+              data-autofocus
               aria-label="Close project"
               className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/60 text-lg text-bone backdrop-blur transition hover:bg-black"
             >

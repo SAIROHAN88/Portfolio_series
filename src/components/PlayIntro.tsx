@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import { introSlides, profile } from '../data/portfolio';
+import { useDialogFocus } from '../hooks/useDialogFocus';
 import { useScrollLock } from '../hooks/smoothScroll';
 import { useReducedMotionPref } from '../hooks/useMedia';
 import { EASE } from './fx';
@@ -13,6 +14,8 @@ const SLIDE_MS = 3600;
  */
 export default function PlayIntro({ onClose }: { onClose: () => void }) {
   useScrollLock(true);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(dialogRef, true);
   const reduced = useReducedMotionPref();
   const [phase, setPhase] = useState<'zoom' | 'reel' | 'end'>(reduced ? 'reel' : 'zoom');
   const [index, setIndex] = useState(0);
@@ -83,6 +86,7 @@ export default function PlayIntro({ onClose }: { onClose: () => void }) {
 
   return (
     <motion.div
+      ref={dialogRef}
       className="fixed inset-0 z-[130] overflow-hidden bg-black"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

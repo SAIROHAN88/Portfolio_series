@@ -8,7 +8,7 @@
   --color-brand: #22c55e;
   --color-bone: #f4f1ec;
   --color-mist: #a7a6ad;
-  --color-smoke: #6d6c75;
+  --color-smoke: #8b8a94;
   --font-display: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-serif: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -111,7 +111,7 @@ body {
 
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 2px rgba(244, 241, 236, 0.28);
+  -webkit-text-stroke: 2px rgba(244, 241, 236, 0.45);
 }
 
 .glass {
@@ -166,4 +166,103 @@ a:focus-visible {
     display: none;
   }
 }
-@media print { html, body { background: #ffffff !important; color: #111827 !important; } nav, #top, #about, #journey, #originals, #picks, #skills, #moments, #contact, .grain, .light-streak, button, [data-cursor] { display: none !important; } .printable-resume { position: static !important; display: block !important; width: 100% !important; background: #ffffff !important; color: #111827 !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; } .printable-resume * { color: #1f2937 !important; background: transparent !important; } .printable-resume h3 { color: #111827 !important; } .printable-resume h4 { color: #0d5c2e !important; border-bottom: 1px solid #d1d5db !important; } .printable-resume a { color: #1d4ed8 !important; text-decoration: underline !important; } .printable-resume header { border-bottom: 1px solid #d1d5db !important; } }
+@media print {
+  html, body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  /* Everything except the resume is chrome. */
+  nav,
+  #top,
+  #about,
+  #journey,
+  #originals,
+  #picks,
+  #skills,
+  #moments,
+  #contact,
+  .grain,
+  .light-streak,
+  button,
+  [data-cursor],
+  [data-print-hide] {
+    display: none !important;
+  }
+
+  /* Scroll/enter animations leave opacity, blur and transform on ancestors.
+     Neutralise them or the printed resume comes out faded or offset. */
+  #root,
+  #root > div,
+  main,
+  main > div,
+  #story,
+  #story > div,
+  #story .gutter {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* If the resume modal is open it is the source of truth: hide the in-page
+     copy so exactly ONE resume prints. */
+  body:has([data-resume-modal]) #story {
+    display: none !important;
+  }
+  body:has([data-resume-modal]) [data-resume-modal] {
+    position: static !important;
+    display: block !important;
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  body:has([data-resume-modal]) [data-resume-scroll] {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: 0 !important;
+  }
+
+  .printable-resume {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .printable-resume * {
+    color: #1f2937 !important;
+    background: transparent !important;
+  }
+  .printable-resume h3 {
+    color: #111827 !important;
+  }
+  .printable-resume h4 {
+    color: #0d5c2e !important;
+    border-bottom: 1px solid #d1d5db !important;
+  }
+  .printable-resume a {
+    color: #1d4ed8 !important;
+    text-decoration: underline !important;
+  }
+  .printable-resume header {
+    border-bottom: 1px solid #d1d5db !important;
+  }
+
+  /* Keep a section heading with the content it introduces — otherwise
+     "ACHIEVEMENTS" can land alone at the foot of a page.
+     Only `break-after` is used: forcing `break-inside: avoid` on a list or
+     paragraph taller than the page makes the renderer drop it entirely. */
+  .printable-resume h4 {
+    break-after: avoid-page !important;
+    page-break-after: avoid !important;
+  }
+  .printable-resume li {
+    break-inside: avoid-page;
+    page-break-inside: avoid;
+  }
+}

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { sectionMeta, viewerProfiles, type ProfileId, type SectionId } from '../data/portfolio';
-import { useSmoothScroll } from '../hooks/smoothScroll';
+import { NAV_OFFSET } from '../constants';
+import { useSmoothScroll, useScrollLock } from '../hooks/smoothScroll';
 import { SeriesMark } from './Poster';
 import { ProfileAvatar } from './ProfileSelector';
 import { EASE } from './fx';
@@ -15,6 +16,19 @@ export default function Navbar({ order, profileId, onSwitch }: { order: SectionI
   const [active, setActive] = useState<string>('top');
   const { scrollTo } = useSmoothScroll();
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // The mobile menu is a full-screen overlay: lock the page behind it.
+  useScrollLock(mobileNav);
+
+  // Escape closes the mobile menu.
+  useEffect(() => {
+    if (!mobileNav) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileNav(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mobileNav]);
 
   useMotionValueEvent(scrollY, 'change', (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -48,7 +62,7 @@ export default function Navbar({ order, profileId, onSwitch }: { order: SectionI
 
   const go = (id: string) => {
     setMobileNav(false);
-    scrollTo(`#${id}`, { offset: id === 'top' ? 0 : -64 });
+    scrollTo(`#${id}`, { offset: id === 'top' ? 0 : -NAV_OFFSET });
   };
 
   const current = viewerProfiles.find((p) => p.id === profileId)!;
@@ -65,7 +79,7 @@ export default function Navbar({ order, profileId, onSwitch }: { order: SectionI
         }`}
       >
         <div className="flex items-center gap-8 lg:gap-10">
-          <button type="button" onClick={() => go('top')} className="text-[22px]" aria-label="Back to top">
+          <button type="button" onClick={() => go('top')} className="text-[22px]" aria-label="SERIES — back to top">
             <SeriesMark />
           </button>
           <nav className="hidden items-center gap-6 lg:flex" aria-label="Sections">
@@ -133,7 +147,7 @@ export default function Navbar({ order, profileId, onSwitch }: { order: SectionI
           </div>
           <button
             type="button"
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+            className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
             aria-label={mobileNav ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileNav}
             onClick={() => setMobileNav((v) => !v)}
