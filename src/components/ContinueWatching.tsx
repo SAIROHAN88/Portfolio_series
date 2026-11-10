@@ -46,14 +46,14 @@ export default function ContinueWatching({ order }: { order: SectionId[] }) {
                 animate={{ x: shift, scale: fine && hovered === i ? 1.08 : 1, zIndex: hovered === i ? 10 : 1 }}
                 transition={{ duration: 0.5, ease: EASE, delay: 0 }}
               >
-                <div className="relative h-full w-full overflow-hidden rounded-lg ring-1 ring-white/10 transition duration-500 group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,61,90,0.6)]">
+                <div className="relative h-full w-full overflow-hidden rounded-lg ring-1 ring-white/10 transition duration-500 group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.6),0_0_0_1px_rgba(34,197,94,0.6)]">
                   <motion.div className="absolute inset-0" animate={{ scale: hovered === i ? 1.12 : 1 }} transition={{ duration: 0.8, ease: EASE }}>
                     <PosterBackdrop palette={meta.palette}>
                       <span className="absolute -right-2 -top-6 font-display text-[8rem] leading-none text-white/[0.07] sm:text-[9rem]">{GLYPHS[id]}</span>
                     </PosterBackdrop>
                   </motion.div>
                   <div className="absolute inset-0 flex flex-col justify-end p-4">
-                    <span className="mb-1 text-[10px] font-bold uppercase tracking-[0.3em] text-crimson-2">Episode {String(i + 1).padStart(2, '0')}</span>
+                    <span className="mb-1 text-[10px] font-bold uppercase tracking-[0.3em] text-brand">Episode {String(i + 1).padStart(2, '0')}</span>
                     <span className="font-display text-2xl leading-none tracking-wide text-bone transition-transform duration-500 group-hover:-translate-y-1 sm:text-3xl">
                       {meta.card}
                     </span>
@@ -66,7 +66,7 @@ export default function ContinueWatching({ order }: { order: SectionId[] }) {
                   </span>
                 </div>
                 <div className="mt-2 h-[3px] w-full overflow-hidden rounded bg-white/15">
-                  <motion.div className="h-full origin-left bg-crimson" animate={{ scaleX: Math.max(0.04, p) }} transition={{ duration: 0.6 }} />
+                  <motion.div className="h-full origin-left bg-brand-deep" animate={{ scaleX: Math.max(0.04, p) }} transition={{ duration: 0.6 }} />
                 </div>
               </motion.button>
             );

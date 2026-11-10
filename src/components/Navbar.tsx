@@ -80,7 +80,7 @@ export default function Navbar({ order, profileId, onSwitch }: { order: SectionI
           <button
             type="button"
             onClick={() => go('contact')}
-            className="hidden rounded-full border border-white/15 px-4 py-1.5 text-xs font-semibold tracking-[0.14em] text-bone transition hover:border-crimson-2 hover:text-crimson-2 sm:block"
+            className="hidden rounded-full border border-white/15 px-4 py-1.5 text-xs font-semibold tracking-[0.14em] text-bone transition hover:border-brand hover:text-brand sm:block"
           >
             LET&apos;S BUILD
           </button>
@@ -162,7 +162,7 @@ export default function Navbar({ order, profileId, onSwitch }: { order: SectionI
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.05 * i }}
-                className={`block w-full py-3 text-left font-display text-3xl tracking-wide ${active === l.id ? 'text-crimson-2' : 'text-bone'}`}
+                className={`block w-full py-3 text-left font-display text-3xl tracking-wide ${active === l.id ? 'text-brand' : 'text-bone'}`}
               >
                 {l.label}
               </motion.button>
@@ -178,7 +178,7 @@ function NavLink({ label, active, onClick }: { label: string; active: boolean; o
   return (
     <button type="button" onClick={onClick} className={`relative text-[13px] font-medium transition ${active ? 'text-bone' : 'text-mist hover:text-bone'}`}>
       {label}
-      {active && <motion.span layoutId="nav-underline" className="absolute -bottom-1.5 left-0 right-0 h-[2px] rounded bg-crimson" />}
+      {active && <motion.span layoutId="nav-underline" className="absolute -bottom-1.5 left-0 right-0 h-[2px] rounded bg-brand-deep" />}
     </button>
   );
 }

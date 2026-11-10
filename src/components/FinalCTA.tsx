@@ -14,19 +14,18 @@ export default function FinalCTA({ onReplay }: { onReplay: () => void }) {
   const opacity = useTransform(scrollYProgress, [0.1, 0.9], [0, 1]);
 
   const ctas = [
-    { label: "Let's Build", href: `mailto:${profile.email}?subject=${encodeURIComponent("Let's build something")}`, primary: true, cursor: 'play' },
-    { label: 'LinkedIn', href: profile.links.linkedin, cursor: 'link' },
+    { label: 'Connect on LinkedIn', href: profile.links.linkedin, primary: true, cursor: 'play' },
     { label: 'GitHub', href: profile.links.github, cursor: 'link' },
-    { label: 'Email', href: `mailto:${profile.email}`, cursor: 'link' },
+    { label: 'Instagram', href: profile.links.instagram, cursor: 'link' },
   ];
 
   return (
     <section id="contact" ref={ref} className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-4 py-24 text-center">
-      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_60%,rgba(229,19,43,0.18),transparent_70%)]" />
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_60%,rgba(34,197,94,0.18),transparent_70%)]" />
       <Particles count={36} />
 
       <motion.p
-        className="relative mb-6 text-[11px] font-bold uppercase tracking-[0.5em] text-crimson-2"
+        className="relative mb-6 text-[11px] font-bold uppercase tracking-[0.5em] text-brand"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -35,7 +34,7 @@ export default function FinalCTA({ onReplay }: { onReplay: () => void }) {
       </motion.p>
       <motion.h2
         className="relative font-display leading-[0.85] text-bone"
-        style={{ fontSize: 'clamp(3.4rem, 13vw, 12rem)', letterSpacing: spacing, filter: blur, opacity }}
+        style={{ fontSize: 'clamp(2rem, 6vw, 4.5rem)', letterSpacing: spacing, filter: blur, opacity }}
       >
         TO BE CONTINUED…
       </motion.h2>
@@ -67,7 +66,7 @@ export default function FinalCTA({ onReplay }: { onReplay: () => void }) {
                 rel={c.href.startsWith('http') ? 'noreferrer' : undefined}
                 data-cursor={c.cursor}
                 className={`flex min-h-12 items-center gap-2 rounded-full px-7 text-sm font-bold tracking-[0.12em] transition ${
-                  c.primary ? 'bg-crimson text-white shadow-[0_0_50px_rgba(229,19,43,0.5)] hover:bg-crimson-2' : 'border border-white/25 text-bone hover:border-bone hover:bg-white/10'
+                  c.primary ? 'bg-brand-deep text-white shadow-[0_0_50px_rgba(13,92,46,0.6)] hover:bg-brand hover:text-ink' : 'border border-white/25 text-bone hover:border-bone hover:bg-white/10'
                 }`}
               >
                 {c.primary && <span>▶</span>}

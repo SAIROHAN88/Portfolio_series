@@ -3,3 +3,7 @@ dist
 .DS_Store
 *.local
 .claude
+.agents
+.vscode
+skills-lock.json
+*.zip

@@ -8,7 +8,7 @@ import { EASE } from './fx';
 const SLIDE_MS = 3600;
 
 /**
- * "▶ Play Intro": darken → zoom into the portrait → a full-screen highlight reel
+ * "▶ Play Intro": darken → zoom into the monogram → a full-screen highlight reel
  * built only from resume facts → fade back to the portfolio.
  */
 export default function PlayIntro({ onClose }: { onClose: () => void }) {
@@ -92,23 +92,34 @@ export default function PlayIntro({ onClose }: { onClose: () => void }) {
       aria-modal="true"
       aria-label="Intro highlight reel"
     >
-      {/* Zoom into the portrait */}
+      {/* Cinematic Aperture Warp Transition */}
       <motion.div
-        className="absolute inset-0 flex items-end justify-center"
-        initial={{ scale: 1, opacity: 1 }}
-        animate={phase === 'zoom' ? { scale: [1, 1.08, 2.6], opacity: [0.9, 1, 0] } : { opacity: 0.1, scale: 1.25, filter: 'blur(4px)' }}
-        transition={{ duration: phase === 'zoom' ? 1.7 : 1.2, ease: [0.7, 0, 0.2, 1], times: phase === 'zoom' ? [0, 0.3, 1] : undefined }}
-        style={{ transformOrigin: '50% 30%' }}
+        className="absolute inset-0 flex items-center justify-center"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={
+          phase === 'zoom'
+            ? { scale: [0.9, 1.05, 3.2], opacity: [0, 1, 0] }
+            : { opacity: 0.08, scale: 1.2, filter: 'blur(6px)' }
+        }
+        transition={{
+          duration: phase === 'zoom' ? 1.6 : 1.2,
+          ease: [0.7, 0, 0.2, 1],
+          times: phase === 'zoom' ? [0, 0.35, 1] : undefined,
+        }}
       >
-        <img
-          src={profile.portrait.src}
-          srcSet={profile.portrait.srcSet}
-          sizes="100vw"
-          alt=""
-          className="h-[88vh] w-auto max-w-none object-contain [mask-image:linear-gradient(to_bottom,black_60%,transparent)]"
-        />
+        <div className="relative flex aspect-square w-[60vw] max-w-[420px] items-center justify-center rounded-full border border-emerald-500/30 bg-[radial-gradient(circle,rgba(34,197,94,0.35)_0%,rgba(13,92,46,0.15)_60%,transparent_80%)] shadow-[0_0_120px_rgba(34,197,94,0.4)]">
+          <div className="absolute inset-4 animate-[spin_30s_linear_infinite] rounded-full border border-dashed border-white/20" />
+          <div className="flex flex-col items-center justify-center text-center">
+            <span className="font-display text-8xl font-bold tracking-tight text-bone drop-shadow-[0_0_30px_rgba(34,197,94,0.8)]">
+              SR
+            </span>
+            <span className="mt-2 font-mono text-xs uppercase tracking-[0.5em] text-brand">
+              THE SERIES
+            </span>
+          </div>
+        </div>
       </motion.div>
-      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_45%,rgba(120,10,25,0.35),transparent_70%)]" />
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_45%,rgba(13,92,46,0.35),transparent_70%)]" />
 
       {/* progress bars */}
       {phase !== 'zoom' && (
@@ -136,7 +147,7 @@ export default function PlayIntro({ onClose }: { onClose: () => void }) {
               exit={{ opacity: 0, scale: 0.96, filter: 'blur(10px)' }}
               transition={{ duration: 0.7, ease: EASE }}
             >
-              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.5em] text-crimson-2 sm:text-xs">
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.5em] text-brand sm:text-xs">
                 Episode {String(index + 1).padStart(2, '0')} · {slide.kicker}
               </p>
               <h2 className="font-display leading-[0.88] text-bone" style={{ fontSize: 'clamp(3rem, 10vw, 8.5rem)' }}>

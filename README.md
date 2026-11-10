@@ -1,6 +1,6 @@
-# SUSHMITA — THE SERIES
+# SAI ROHAN — THE SERIES
 
-A cinematic, streaming-inspired portfolio for **Sushmita Dasari**: Full-Stack Developer and B.Tech AI & ML student.
+A cinematic, streaming-inspired portfolio for **Venkata Sai Rohan Pothuganti (Sai Rohan)**: AI/ML Enthusiast, Software Developer, and 2nd-year B.Tech CSE (AI & ML) student at VIT Chennai.
 Every section is an episode, every project is an Original, and the whole site plays like a series.
 
 > A personal portfolio with a fictional streaming-platform look. It is not affiliated with Netflix or any other streaming service and uses none of their logos.
@@ -27,7 +27,7 @@ The static site is written to `dist/` and can be deployed as-is to Vercel, Netli
 
 ## Updating the content
 
-**All content lives in one file: [`src/data/portfolio.ts`](src/data/portfolio.ts).** It was generated from the resume, and every component reads from it.
+**All content lives in one file: [`src/data/portfolio.ts`](src/data/portfolio.ts).**
 
 | To change… | Edit |
 | --- | --- |
@@ -41,15 +41,15 @@ The static site is written to `dist/` and can be deployed as-is to Vercel, Netli
 | Profile order (Recruiter / Developer / Creative) | `viewerProfiles` |
 | Opening studio card text | `profile.originalLabel` |
 
-**Resume:** replace `public/assets/Sushmita_Dasari_Resume.pdf`.
+**Resume Export:** The site includes a built-in "Print / Save as PDF" feature in both the resume modal and the resume preview section, generating an immaculate, print-styled PDF directly from the browser.
 
-**Photo:** replace `pic1.jpeg` (high-res photo) and `pic.png` (background-removed cutout with the same framing), then run:
+**Social share image:** the Open Graph card in `public/assets/og-image.jpg` is generated (no personal photos are baked in). To regenerate it after changing the name or tagline:
 
 ```bash
 npm run images
 ```
 
-This rebuilds the responsive WebP portraits and the social share image in `public/assets/`.
+This rebuilds `public/assets/og-image.jpg` via the `sharp` pipeline in `scripts/build-images.mjs`.
 
 ## What's inside
 
@@ -58,11 +58,11 @@ src/
   data/portfolio.ts        ← single source of truth (from the resume)
   App.tsx                  ← stages: opening → profile select → home; overlays
   components/
-    OpeningSequence        ← black → studio card → SUSHMITA → THE SERIES → portrait → ▶ PLAY
+    OpeningSequence        ← black → studio card → SAI ROHAN → THE SERIES → monogram → ▶ PLAY
     ProfileSelector        ← "Who's watching?" (changes section order only)
     Navbar                 ← hide-on-scroll nav, profile switcher, mobile menu
-    Hero                   ← billboard: parallax portrait, particles, light streaks, floating chips
-    PlayIntro              ← ▶ Play Intro: zoom into portrait → highlight reel (pause, ← →, tap zones)
+    Hero                   ← billboard: parallax monogram, particles, light streaks, floating chips
+    PlayIntro              ← ▶ Play Intro: zoom into the monogram → highlight reel (pause, ← →, tap zones)
     ContinueWatching       ← cards with real "watched" progress bars
     About                  ← The Pilot
     Seasons / EpisodeCard  ← My Journey as seasons and episodes
@@ -71,11 +71,11 @@ src/
     TopPicks               ← Top 10-style row
     Skills                 ← skill genres; each card shows where the skill appears
     Achievements           ← award-poster cards + certification rail (links to credentials)
-    ResumeViewer/ResumeModal ← designed resume sheet, PDF viewer, download
+    ResumeViewer/ResumeModal ← designed resume sheet, print-to-PDF export
     FinalCTA               ← TO BE CONTINUED… + contact links
     CustomCursor, fx.tsx   ← cursor states, magnetic buttons, 3D tilt, text reveals, particles
   hooks/                   ← Lenis smooth scroll + scroll lock, media queries, watch progress
-scripts/build-images.mjs   ← portrait/share-image pipeline (sharp)
+scripts/build-images.mjs   ← social share image pipeline (sharp)
 ```
 
 **Stack:** React 18, TypeScript, Vite 6, Tailwind CSS 4, Framer Motion 11, Lenis.

@@ -4,14 +4,15 @@
   --color-ink: #07070a;
   --color-ink-2: #0e0e13;
   --color-ink-3: #16161d;
-  --color-crimson: #e5132b;
-  --color-crimson-2: #ff3d5a;
+  --color-brand-deep: #0d5c2e;
+  --color-brand: #22c55e;
   --color-bone: #f4f1ec;
   --color-mist: #a7a6ad;
   --color-smoke: #6d6c75;
-  --font-display: 'Bebas Neue', 'Oswald', Impact, sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, serif;
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -48,8 +49,21 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Keep the hero credential line compact enough to remain legible when it wraps. */
+#top .gutter > p:first-of-type {
+  max-width: 42rem;
+  line-height: 1.55;
+  letter-spacing: 0.14em;
+}
+
+@media (min-width: 640px) {
+  #top .gutter > p:first-of-type {
+    letter-spacing: 0.2em;
+  }
+}
+
 ::selection {
-  background: var(--color-crimson);
+  background: var(--color-brand-deep);
   color: white;
 }
 
@@ -110,7 +124,7 @@ body {
 .focus-ring:focus-visible,
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid var(--color-crimson-2);
+  outline: 2px solid var(--color-brand);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -118,7 +132,7 @@ a:focus-visible {
 .light-streak {
   position: absolute;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 90, 110, 0.9), transparent);
+  background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.9), transparent);
   filter: blur(0.4px);
   animation: streak 7s var(--ease-cine) infinite;
   opacity: 0;
@@ -134,7 +148,7 @@ a:focus-visible {
   to { background-position: 200% center; }
 }
 .shimmer-text {
-  background: linear-gradient(90deg, #f4f1ec 0%, #f4f1ec 40%, #ff8a9a 50%, #f4f1ec 60%, #f4f1ec 100%);
+  background: linear-gradient(90deg, #f4f1ec 0%, #f4f1ec 40%, #4ade80 50%, #f4f1ec 60%, #f4f1ec 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -152,3 +166,4 @@ a:focus-visible {
     display: none;
   }
 }
+@media print { html, body { background: #ffffff !important; color: #111827 !important; } nav, #top, #about, #journey, #originals, #picks, #skills, #moments, #contact, .grain, .light-streak, button, [data-cursor] { display: none !important; } .printable-resume { position: static !important; display: block !important; width: 100% !important; background: #ffffff !important; color: #111827 !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; } .printable-resume * { color: #1f2937 !important; background: transparent !important; } .printable-resume h3 { color: #111827 !important; } .printable-resume h4 { color: #0d5c2e !important; border-bottom: 1px solid #d1d5db !important; } .printable-resume a { color: #1d4ed8 !important; text-decoration: underline !important; } .printable-resume header { border-bottom: 1px solid #d1d5db !important; } }

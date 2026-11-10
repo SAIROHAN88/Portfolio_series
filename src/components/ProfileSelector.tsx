@@ -6,20 +6,22 @@ import { EASE } from './fx';
 export function ProfileAvatar({ id, size = 'lg' }: { id: ProfileId; size?: 'sm' | 'lg' }) {
   const p = viewerProfiles.find((v) => v.id === id)!;
   const box = size === 'lg' ? 'h-24 w-24 sm:h-32 sm:w-32 md:h-36 md:w-36 rounded-xl' : 'h-8 w-8 rounded-md';
-  if (id === 'sushmita') {
+
+  if (p.avatar) {
     return (
-      <span className={`relative block overflow-hidden ${box}`} style={{ background: 'radial-gradient(circle at 50% 30%, #7a0f24, #1a0509)' }}>
-        <img src="/assets/portrait-420.webp" alt="" className="absolute inset-x-0 bottom-0 mx-auto h-[115%] w-auto max-w-none -translate-x-[3%] object-cover object-top" />
+      <span className={`relative block overflow-hidden ${box}`} style={{ background: 'radial-gradient(circle at 50% 30%, #0d5c2e, #050a07)' }}>
+        <img src={p.avatar} alt={p.name} className="h-full w-full object-cover object-top" />
       </span>
     );
   }
-  const glyph = { recruiter: 'R', developer: '</>', creative: '✦' }[id];
+
+  const glyph: Record<ProfileId, string> = { rohan: 'SR', recruiter: 'R', developer: '</>', creative: '✦' };
   return (
     <span
       className={`relative flex items-center justify-center overflow-hidden font-display text-bone ${box}`}
       style={{ background: `linear-gradient(145deg, ${p.color}, #0b0b10 120%)` }}
     >
-      <span className={size === 'lg' ? 'text-4xl sm:text-5xl' : 'text-sm'}>{glyph}</span>
+      <span className={size === 'lg' ? 'text-4xl sm:text-5xl' : 'text-sm'}>{glyph[id]}</span>
     </span>
   );
 }
@@ -27,7 +29,7 @@ export function ProfileAvatar({ id, size = 'lg' }: { id: ProfileId; size?: 'sm' 
 export default function ProfileSelector({ onPick }: { onPick: (id: ProfileId) => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onPick('sushmita');
+      if (e.key === 'Escape') onPick('rohan');
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -43,7 +45,7 @@ export default function ProfileSelector({ onPick }: { onPick: (id: ProfileId) =>
       role="dialog"
       aria-label="Who's watching?"
     >
-      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,rgba(229,19,43,0.14),transparent_70%)]" />
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,rgba(34,197,94,0.14),transparent_70%)]" />
       <motion.h2
         className="relative mb-10 text-center font-sans text-3xl font-medium tracking-tight text-bone sm:text-5xl"
         initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
@@ -63,8 +65,8 @@ export default function ProfileSelector({ onPick }: { onPick: (id: ProfileId) =>
             <button type="button" onClick={() => onPick(p.id)} data-cursor="play" className="group flex flex-col items-center gap-3 text-center">
               <span className="relative rounded-xl ring-2 ring-transparent transition duration-300 group-hover:scale-105 group-hover:ring-bone group-focus-visible:ring-bone">
                 <ProfileAvatar id={p.id} />
-                {p.id === 'sushmita' && (
-                  <span className="absolute -right-2 -top-2 rounded-full bg-crimson px-2 py-0.5 text-[9px] font-bold tracking-[0.18em] text-white">MAIN</span>
+                {p.id === 'rohan' && (
+                  <span className="absolute -right-2 -top-2 rounded-full bg-brand-deep px-2 py-0.5 text-[9px] font-bold tracking-[0.18em] text-white">MAIN</span>
                 )}
               </span>
               <span className="font-sans text-sm font-medium text-mist transition group-hover:text-bone sm:text-base">{p.name}</span>

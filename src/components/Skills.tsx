@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { skillCategories, skillEvidence, type Skill } from '../data/portfolio';
 import { EASE, SectionHeading } from './fx';
 
-const HUES = ['#ff3d5a', '#4cc9ff', '#46e3a8', '#ffb547', '#b98bff', '#ff8a5c', '#7ee0ff'];
+const HUES = ['#22c55e', '#4cc9ff', '#46e3a8', '#ffb547', '#b98bff', '#ff8a5c', '#7ee0ff'];
 
 export default function Skills() {
   const [cat, setCat] = useState(0);
@@ -20,10 +20,25 @@ export default function Skills() {
           {skillCategories.map((c, i) => (
             <button
               key={c.id}
+              id={`skill-tab-${c.id}`}
               type="button"
               role="tab"
               aria-selected={i === cat}
+              aria-controls="skill-panel"
+              tabIndex={i === cat ? 0 : -1}
               onClick={() => setCat(i)}
+              onKeyDown={(e) => {
+                const last = skillCategories.length - 1;
+                let next = -1;
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = i === last ? 0 : i + 1;
+                else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = i === 0 ? last : i - 1;
+                else if (e.key === 'Home') next = 0;
+                else if (e.key === 'End') next = last;
+                if (next === -1) return;
+                e.preventDefault();
+                setCat(next);
+                document.getElementById(`skill-tab-${skillCategories[next].id}`)?.focus();
+              }}
               className={`group relative shrink-0 rounded-lg px-4 py-3 text-left transition lg:px-5 ${i === cat ? 'text-bone' : 'text-smoke hover:text-bone'}`}
             >
               {i === cat && <motion.span layoutId="skill-tab" className="absolute inset-0 rounded-lg bg-white/[0.07] ring-1 ring-white/10" transition={{ duration: 0.45, ease: EASE }} />}
@@ -37,7 +52,13 @@ export default function Skills() {
         </div>
 
         {/* skill cards */}
-        <div className="min-h-[340px]">
+        <div
+          id="skill-panel"
+          role="tabpanel"
+          aria-labelledby={`skill-tab-${category.id}`}
+          tabIndex={0}
+          className="min-h-[340px] focus-visible:outline-2 focus-visible:outline-brand"
+        >
           <AnimatePresence mode="wait">
             <motion.div key={category.id} initial="hidden" animate="show" exit="exit" transition={{ staggerChildren: 0.05 }}>
               <motion.p

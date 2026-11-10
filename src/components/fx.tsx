@@ -114,9 +114,9 @@ export function SectionHeading({ kicker, title, aside }: { kicker: string; title
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="mb-2 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.32em] text-crimson-2"
+          className="mb-2 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.32em] text-brand"
         >
-          <span className="h-px w-8 bg-crimson-2" />
+          <span className="h-px w-8 bg-brand" />
           {kicker}
         </motion.div>
         <RevealText as="h2" text={title} className="font-display text-[clamp(2.4rem,6vw,5rem)] leading-[0.9] tracking-wide text-bone" />
@@ -127,7 +127,7 @@ export function SectionHeading({ kicker, title, aside }: { kicker: string; title
 }
 
 /** Lightweight drifting dust particles on a canvas — pauses when off screen. */
-export function Particles({ count = 46, color = '255,90,110', className = '' }: { count?: number; color?: string; className?: string }) {
+export function Particles({ count = 46, color = '34,197,94', className = '' }: { count?: number; color?: string; className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotionPref();
 

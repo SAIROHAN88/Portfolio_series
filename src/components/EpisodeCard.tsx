@@ -13,7 +13,7 @@ export default function EpisodeCard({ episode, index }: { episode: Episode; inde
       transition={{ duration: 0.7, delay: index * 0.1, ease: EASE }}
     >
       <Tilt max={7} className="group h-full rounded-xl">
-        <div className="flex h-full flex-col overflow-hidden rounded-xl bg-ink-2 ring-1 ring-white/10 transition duration-500 group-hover:ring-crimson-2/60">
+        <div className="flex h-full flex-col overflow-hidden rounded-xl bg-ink-2 ring-1 ring-white/10 transition duration-500 group-hover:ring-brand/60">
           <div className="relative aspect-video overflow-hidden">
             <div className="absolute inset-0 transition-transform duration-[1.2s] ease-[var(--ease-cine)] group-hover:scale-110">
               <PosterBackdrop palette={episode.palette}>

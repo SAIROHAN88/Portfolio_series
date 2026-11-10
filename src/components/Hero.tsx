@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
-import { achievements, certifications, education, profile, projects, type ProfileId } from '../data/portfolio';
+import { achievements, profile, projects, type ProfileId } from '../data/portfolio';
 import { useFinePointer } from '../hooks/useMedia';
 import { useSmoothScroll } from '../hooks/smoothScroll';
 import { EASE, Magnetic, Particles } from './fx';
@@ -37,16 +37,16 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
   const glowX = useTransform(px, [-1, 1], ['-6%', '6%']);
 
   const meta = [
-    education[0].period.split(' – ')[0].split(' ')[1] + ' – Present',
-    'B.Tech AI & ML',
+    '2024 – Present',
+    'VIT Chennai',
+    'B.Tech CSE (AI & ML)',
     `${projects.length} Originals`,
-    `${certifications.length} Certifications`,
   ];
 
   const floating = [
-    { text: education[0].score, sub: 'B.Tech AI & ML', pos: 'left-[2%] top-[30%]', depth: 1 },
+    { text: 'VIT Chennai', sub: 'B.Tech CSE (AI & ML)', pos: 'left-[2%] top-[30%]', depth: 1 },
     { text: `${achievements[0].title}`, sub: achievements[0].org, pos: 'right-[0%] top-[18%]', depth: -1 },
-    { text: 'Java · React · Node.js', sub: 'Primary stack', pos: 'right-[4%] bottom-[24%]', depth: 0.6 },
+    { text: 'Python · C++', sub: 'Core stack', pos: 'right-[4%] bottom-[24%]', depth: 0.6 },
   ];
 
   return (
@@ -62,8 +62,8 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
     >
       {/* atmosphere */}
       <motion.div aria-hidden className="absolute inset-0" style={{ x: glowX }}>
-        <div className="absolute right-[-10%] top-[-10%] h-[90vh] w-[80vw] rounded-full bg-[radial-gradient(closest-side,rgba(229,19,43,0.38),rgba(229,19,43,0.08)_55%,transparent)] blur-2xl lg:right-[-4%] lg:w-[60vw]" />
-        <div className="absolute bottom-[-20%] left-[-10%] h-[70vh] w-[60vw] rounded-full bg-[radial-gradient(closest-side,rgba(90,20,120,0.25),transparent)] blur-2xl" />
+        <div className="absolute right-[-10%] top-[-10%] h-[90vh] w-[80vw] rounded-full bg-[radial-gradient(closest-side,rgba(13,92,46,0.38),rgba(13,92,46,0.08)_55%,transparent)] blur-2xl lg:right-[-4%] lg:w-[60vw]" />
+        <div className="absolute bottom-[-20%] left-[-10%] h-[70vh] w-[60vw] rounded-full bg-[radial-gradient(closest-side,rgba(20,120,60,0.25),transparent)] blur-2xl" />
       </motion.div>
       <Particles className="z-[1]" />
       <div aria-hidden className="absolute inset-0 z-[1] overflow-hidden">
@@ -72,30 +72,66 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
         <span className="light-streak left-[55%] top-[44%] w-[30vw]" style={{ animationDelay: '5.2s' }} />
       </div>
 
-      {/* portrait */}
+      {/* 3D Holographic Centerpiece / Insignia */}
       <motion.div
-        className="absolute inset-x-0 top-12 z-[2] flex h-[64svh] items-end justify-center sm:h-[70svh] lg:bottom-0 lg:left-auto lg:right-[3vw] lg:top-20 lg:h-auto lg:w-[54vw] xl:right-[6vw] xl:w-[48vw]"
+        className="absolute inset-x-0 top-12 z-[2] flex h-[64svh] items-center justify-center sm:h-[70svh] lg:bottom-0 lg:left-auto lg:right-[3vw] lg:top-20 lg:h-auto lg:w-[54vw] xl:right-[6vw] xl:w-[48vw]"
         style={{ y: imgY, scale: imgScale, opacity: fade }}
       >
         <motion.div
-          className="relative h-full w-full lg:h-[86vh]"
+          className="relative flex h-full w-full items-center justify-center lg:h-[86vh]"
           style={{ rotateY: imgRotY, rotateX: imgRotX, x: imgShiftX, transformPerspective: 1200 }}
           initial={{ clipPath: 'inset(100% -30% -10% -30%)', opacity: 0 }}
           animate={{ clipPath: 'inset(-30% -30% -10% -30%)', opacity: 1 }}
           transition={{ duration: 1.6, ease: EASE, delay: 0.1 }}
         >
-          {/* rim light ring */}
-          <div aria-hidden className="absolute bottom-[8%] left-1/2 h-[78%] w-[78%] -translate-x-1/2 rounded-full border border-crimson-2/20 shadow-[0_0_120px_rgba(229,19,43,0.35),inset_0_0_80px_rgba(229,19,43,0.18)]" />
-          <img
-            src={profile.portrait.src}
-            srcSet={profile.portrait.srcSet}
-            sizes="(max-width: 1024px) 100vw, 54vw"
-            alt={profile.portrait.alt}
+          {/* outer ambient glow aura */}
+          <div aria-hidden className="absolute h-[68vw] w-[68vw] max-h-[500px] max-w-[500px] rounded-full bg-[radial-gradient(circle,rgba(34,197,94,0.22)_0%,rgba(13,92,46,0.1)_50%,transparent_75%)] blur-2xl" />
 
-            className="absolute bottom-0 left-1/2 h-full w-auto max-w-none -translate-x-1/2 object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] [mask-image:linear-gradient(to_bottom,black_62%,transparent_97%)]"
+          {/* rotating orbital ring */}
+          <div
+            aria-hidden
+            className="absolute h-[58vw] w-[58vw] max-h-[420px] max-w-[420px] animate-[spin_60s_linear_infinite] rounded-full border border-dashed border-brand/30"
           />
-          {/* crimson rim light on the image edge */}
-          <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_80%_30%,rgba(255,61,90,0.16),transparent_70%)] mix-blend-screen" />
+
+          {/* technical counter-rotating HUD ring */}
+          <div
+            aria-hidden
+            className="absolute h-[50vw] w-[50vw] max-h-[360px] max-w-[360px] animate-[spin_40s_linear_infinite_reverse] rounded-full border border-white/10 [border-top-color:rgba(34,197,94,0.6)] [border-bottom-color:rgba(34,197,94,0.6)]"
+          />
+
+          {/* central insignia medallion */}
+          <div className="relative flex aspect-square w-[46vw] max-w-[310px] flex-col items-center justify-center rounded-3xl border border-white/15 bg-gradient-to-br from-white/10 via-black/40 to-black/80 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.2)] backdrop-blur-xl">
+            {/* inner glow accent */}
+            <div aria-hidden className="absolute inset-0 rounded-3xl bg-[radial-gradient(circle_at_50%_35%,rgba(34,197,94,0.25),transparent_65%)]" />
+
+            {/* film strip accents */}
+            <div className="absolute top-4 flex w-full justify-between px-6 font-mono text-[9px] uppercase tracking-[0.25em] text-mist/70">
+              <span>EP. 01</span>
+              <span className="font-bold text-brand">● LIVE</span>
+            </div>
+
+            {/* monogram symbol */}
+            <div className="relative my-auto flex flex-col items-center text-center">
+              <span className="font-display text-7xl font-bold tracking-tight text-bone drop-shadow-[0_4px_24px_rgba(34,197,94,0.4)] sm:text-8xl">
+                SR
+              </span>
+              <p className="mt-1 font-sans text-[11px] font-bold tracking-[0.4em] text-brand">
+                ORIGINAL SERIES
+              </p>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="h-1.5 w-1.5 animate-ping rounded-full bg-brand" />
+                <span className="font-mono text-[10px] tracking-wider text-bone/90">
+                  AI / ML SPECIALIST
+                </span>
+              </div>
+            </div>
+
+            {/* card bottom metadata */}
+            <div className="absolute bottom-4 flex w-full items-center justify-between px-6 font-mono text-[9px] text-mist/60">
+              <span>S01–S03</span>
+              <span>VIT CHENNAI</span>
+            </div>
+          </div>
 
           {/* floating UI chips */}
           {floating.map((f, i) => (
@@ -120,10 +156,10 @@ export default function Hero({ onPlay, onResume, profileId }: { onPlay: () => vo
         <motion.div variants={item} className="mb-3 text-lg">
           <SeriesMark />
         </motion.div>
-        <motion.h1 variants={item} className="font-display leading-[0.82] tracking-[0.02em] text-bone" style={{ fontSize: 'clamp(4rem, 12vw, 11rem)' }}>
+        <motion.h1 variants={item} className="font-display leading-[0.88] tracking-[0.02em] text-bone" style={{ fontSize: 'clamp(2.5rem, 6.8vw, 6.2rem)' }}>
           <span className="shimmer-text">{profile.firstName}</span>
         </motion.h1>
-        <motion.p variants={item} className="mt-1 font-sans text-sm font-bold tracking-[0.62em] text-crimson-2 sm:text-base">
+        <motion.p variants={item} className="mt-1 font-sans text-sm font-bold tracking-[0.62em] text-brand sm:text-base">
           {profile.seriesTag}
         </motion.p>
 

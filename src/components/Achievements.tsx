@@ -87,7 +87,7 @@ export default function Achievements() {
                 transition={{ duration: 0.5, delay: Math.min(i, 6) * 0.04, ease: EASE }}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-crimson-2">{c.issuer}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand">{c.issuer}</span>
                   <span className="text-sm text-smoke transition group-hover:text-bone">↗</span>
                 </div>
                 <p className="mt-6 text-sm font-medium leading-snug text-bone">{c.name}</p>
