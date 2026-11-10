@@ -23,12 +23,28 @@ export default function Seasons() {
         {seasons.map((s, i) => (
           <button
             key={s.number}
+            id={`season-tab-${s.number}`}
             role="tab"
             aria-selected={i === active}
+            aria-controls="season-panel"
+            tabIndex={i === active ? 0 : -1}
             type="button"
             onClick={() => {
               setActive(i);
               rail.current?.scrollTo({ left: 0, behavior: 'smooth' });
+            }}
+            onKeyDown={(e) => {
+              const last = seasons.length - 1;
+              let next = -1;
+              if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = i === last ? 0 : i + 1;
+              else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = i === 0 ? last : i - 1;
+              else if (e.key === 'Home') next = 0;
+              else if (e.key === 'End') next = last;
+              if (next === -1) return;
+              e.preventDefault();
+              setActive(next);
+              rail.current?.scrollTo({ left: 0, behavior: 'smooth' });
+              document.getElementById(`season-tab-${seasons[next].number}`)?.focus();
             }}
             className={`relative shrink-0 rounded-full px-4 py-2.5 text-left transition ${i === active ? 'text-ink' : 'text-mist hover:text-bone'}`}
           >
@@ -38,6 +54,14 @@ export default function Seasons() {
           </button>
         ))}
       </div>
+
+      <div
+        id="season-panel"
+        role="tabpanel"
+        aria-labelledby={`season-tab-${season.number}`}
+        tabIndex={0}
+        className="focus-visible:outline-2 focus-visible:outline-brand"
+      >
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -68,6 +92,7 @@ export default function Seasons() {
           </div>
         </motion.div>
       </AnimatePresence>
+      </div>
     </>
   );
 }
