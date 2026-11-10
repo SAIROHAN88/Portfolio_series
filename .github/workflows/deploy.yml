@@ -49,14 +49,16 @@ jobs:
         # the branch is the site root, so `dist/index.html` becomes the
         # homepage and `dist/assets/*` are served from the site root.
         #
-        # The site must be served from the repo root path, so the build has
-        # to use a base of "/" — the gh-pages branch is served at
-        # https://<user>.github.io/<repo>/, and relative asset paths work
-        # from there.
+        # The site is served from the repo sub-path
+        # (https://<user>.github.io/<repo>/), so the build keeps the
+        # VITE_BASE_PATH prefix from .env — absolute asset URLs then resolve
+        # correctly under that path.
+        #
+        # GITHUB_TOKEN is not exposed to the shell automatically; it has to
+        # be passed through explicitly or the push is rejected.
         env:
-          VITE_BASE_PATH: /
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx vite build
           cp public/assets/Sai_Rohan_Resume.pdf dist/assets/Sai_Rohan_Resume.pdf
           cd dist
           git init -q
