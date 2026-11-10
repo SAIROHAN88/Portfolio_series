@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sai-rohan88.github.io/Portfolio_series/sitemap.xml
